@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Путь Самурая</title>
+    <style>
+        body {
+            font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0d0d0d;
+            color: #f0f0f0;
+            overflow-x: hidden;
+            background-image: radial-gradient(#1f1f1f 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .petal {
+            position: absolute;
+            background-color: #ffb7c5;
+            border-radius: 15% 85% 40% 60% / 80% 10% 90% 20%;
+            opacity: 0.6;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); }
+            100% { transform: translateY(110vh) translateX(150px) rotate(360deg); }
+        }
+        header {
+            background: linear-gradient(135deg, #4a0000, #1a0000, #8b0000);
+            padding: 5rem 2rem;
+            text-align: center;
+            border-bottom: 5px solid #d4af37;
+            position: relative;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
+        }
+        /* Самурайский силуэт через CSS */
+        .samurai-silhouette {
+            width: 120px;
+            height: 180px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            background: #000;
+            clip-path: polygon(40% 0%, 60% 0%, 65% 30%, 80% 35%, 100% 50%, 90% 60%, 75% 55%, 70% 100%, 30% 100%, 25% 55%, 10% 60%, 0% 50%, 20% 35%, 35% 30%);
+            box-shadow: 0 0 15px #d4af37;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 4rem;
+            color: #d4af37;
+            text-shadow: 3px 3px 15px #000;
+            letter-spacing: 3px;
+        }
+        .audio-controller {
+            margin-top: 2rem;
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0,0,0,0.6);
+            padding: 0.5rem 1.5rem;
+            border: 1px solid #d4af37;
+            border-radius: 30px;
+        }
+        .audio-controller span {
+            margin-right: 1rem;
+            font-size: 0.9rem;
+            color: #d4af37;
+        }
+        audio {
+            filter: invert(1) hue-rotate(180deg);
+            height: 35px;
+        }
+        .katana-divider {
+            width: 250px;
+            height: 6px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            margin: 2rem auto;
+            position: relative;
+        }
+        .katana-divider::after {
+            content: '⚔';
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: #d4af37;
+        }
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+        .card {
+            background-color: #141414;
+            border: 1px solid #332211;
+            border-left: 4px solid #d4af37;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+        }
+        h2 { color: #d4af37; margin-top: 0; font-size: 2.2rem; display: flex; align-items: center; }
+        h2::before { content: ' Bann'; margin-right: 0.5rem; font-size: 1.5rem; }
+        p { line-height: 1.8; color: #cccccc; font-size: 1.2rem; }
+        .tags { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+        .tag {
+            background: #2a2015;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 0.5rem 1.2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="petal" style="width: 20px; height: 12px; left: 15%; animation-duration: 14s; animation-delay: 0s;"></div>
+    <div class="petal" style="width: 15px; height: 9px; left: 35%; animation-duration: 11s; animation-delay: 3s;"></div>
+    <div class="petal" style="width: 25px; height: 15px; left: 65%; animation-duration: 16s; animation-delay: 1s;"></div>
+    <div class="petal" style="width: 18px; height: 11px; left: 85%; animation-duration: 12s; animation-delay: 5s;"></div>
+
+    <header>
+        <div class="samurai-silhouette"></div>
+        <h1>侍 • Путь Кода</h1>
+        <div class="katana-divider"></div>
+        <p>Дисциплина, Честь, Чистый Скрипт</p>
+        
+        <div class="audio-controller">
+            <span>Медитативный фон:</span>
+            <audio controls loop>
+                <source src="https://actions.google.com/sounds/v1/ambiences/japan_shrine_bells.ogg" type="audio/ogg">
+                Ваш браузер не поддерживает аудио элемент.
+            </audio>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Кодекс Разработчика</h2>
+            <p>Подобно самураю, оттачивающему владение мечом, я шлифую свои навыки до совершенства. Мой код — это отражение философии простоты, надежности и внутренней гармонии.</p>
+        </div>
+        <div class="card">
+            <h2>Арсенал</h2>
+            <div class="tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">HTML/CSS</span>
+                <span class="tag">Git</span>
+                <span class="tag">Мастерство</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
