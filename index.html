@@ -160,29 +160,56 @@
             color: #ccc;
         }
 
+        /* Интерактивный арсенал */
         .arsenal-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            display: flex;
+            flex-direction: column;
             gap: 1rem;
             margin-top: 1.5rem;
         }
 
-        .tool-badge {
+        .tool-card {
             background: #1e1b18;
             border: 1px solid var(--primary-gold);
-            color: var(--primary-gold);
-            padding: 0.8rem;
-            text-align: center;
-            font-weight: bold;
-            letter-spacing: 1px;
-            border-radius: 2px;
+            border-radius: 4px;
+            overflow: hidden;
             transition: all 0.3s ease;
         }
 
-        .tool-badge:hover {
-            background: var(--primary-gold);
-            color: var(--bg-dark);
-            transform: translateY(-3px);
+        .tool-card summary {
+            padding: 1.2rem;
+            color: var(--primary-gold);
+            font-weight: bold;
+            font-size: 1.2rem;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tool-card summary::after {
+            content: '⚔';
+            font-size: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .tool-card[open] summary::after {
+            transform: rotate(45deg);
+        }
+
+        .tool-card summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .tool-description {
+            padding: 1.2rem;
+            background: #141210;
+            border-top: 1px dashed rgba(212, 175, 55, 0.3);
+            color: #bbb;
+            line-height: 1.6;
+            font-size: 1rem;
         }
 
         .contact-section {
@@ -256,12 +283,49 @@
         <div class="card">
             <h2>Мой Самурайский Арсенал</h2>
             <div class="arsenal-grid">
-                <div class="tool-badge">GPT</div>
-                <div class="tool-badge">DeepSeek</div>
-                <div class="tool-badge">Open Code</div>
-                <div class="tool-badge">Git</div>
-                <div class="tool-badge">HTML/CSS</div>
-                <div class="tool-badge">JavaScript</div>
+                
+                <details class="tool-card">
+                    <summary>GPT</summary>
+                    <div class="tool-description">
+                        Мощный союзник и интеллектуальный советник. Генерирует архитектурные решения, помогает в отладке сложных алгоритмов и ускоряет написание базового кода.
+                    </div>
+                </details>
+
+                <details class="tool-card">
+                    <summary>DeepSeek</summary>
+                    <div class="tool-description">
+                        Острое лезвие для глубокого анализа данных и оптимизации кода. Находит скрытые уязвимости и предлагает элегантные решения для сложных задач.
+                    </div>
+                </details>
+
+                <details class="tool-card">
+                    <summary>Open Code</summary>
+                    <div class="tool-description">
+                        Источник безграничных знаний и готовых решений. Позволяет интегрировать передовые стандарты индустрии и создавать масштабируемые проекты.
+                    </div>
+                </details>
+
+                <details class="tool-card">
+                    <summary>Git</summary>
+                    <div class="tool-description">
+                        Летописец моих свершений. Хранит историю каждого изменения, обеспечивает безопасность версий и позволяет безопасно экспериментировать.
+                    </div>
+                </details>
+
+                <details class="tool-card">
+                    <summary>HTML/CSS</summary>
+                    <div class="tool-description">
+                        Фундамент и доспехи моих творений. Отвечают за идеальную структуру и визуальное совершенство каждого пикселя на экране.
+                    </div>
+                </details>
+
+                <details class="tool-card">
+                    <summary>JavaScript</summary>
+                    <div class="tool-description">
+                        Искра жизни и динамики. Превращает статичные страницы в интерактивные миры, реагирующие на каждое действие пользователя.
+                    </div>
+                </details>
+
             </div>
         </div>
     </div>
@@ -274,4 +338,4 @@
 </body>
 </html>
 
-                    
+            
