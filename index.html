@@ -1,135 +1,248 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Путь Самурая</title>
+    <title>Путь Самурая Кода</title>
     <style>
+        :root {
+            --primary-gold: #d4af37;
+            --bg-dark: #0a0a0c;
+            --card-bg: #141418;
+            --text-main: #e0e0e0;
+            --accent-red: #8b0000;
+        }
+
         body {
-            font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+            font-family: 'Cinzel', serif, 'Yu Mincho', serif;
             margin: 0;
             padding: 0;
-            background-color: #0d0d0d;
-            color: #f0f0f0;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             overflow-x: hidden;
-            background-image: radial-gradient(#1f1f1f 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-image: 
+                radial-gradient(circle at 20% 20%, #1f1a18 1px, transparent 1px),
+                radial-gradient(circle at 80% 80%, #181a1f 1px, transparent 1px);
+            background-size: 50px 50px;
         }
+
+        /* Улучшенная анимация сакуры */
         .petal {
-            position: absolute;
+            position: fixed;
             background-color: #ffb7c5;
             border-radius: 15% 85% 40% 60% / 80% 10% 90% 20%;
-            opacity: 0.6;
-            animation: fall linear infinite;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.8;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
+
         @keyframes fall {
-            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); }
-            100% { transform: translateY(110vh) translateX(150px) rotate(360deg); }
+            0% {
+                transform: translateY(-10vh) translateX(0) rotate(0deg) scale(0.8);
+            }
+            50% {
+                transform: translateY(50vh) translateX(50px) rotate(180deg) scale(1);
+            }
+            100% {
+                transform: translateY(110vh) translateX(-20px) rotate(360deg) scale(0.8);
+            }
         }
-        header {
-            background: linear-gradient(135deg, #4a0000, #1a0000, #8b0000);
-            padding: 5rem 2rem;
-            text-align: center;
-            border-bottom: 5px solid #d4af37;
-            position: relative;
-            box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
+
+        /* Анимация золотого дракона */
+        @keyframes dragonFly {
+            0% {
+                transform: translate(-150px, 20vh) scale(0.3);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            50% {
+                transform: translate(55vw, 10vh) scale(0.8) rotate(-5deg);
+            }
+            90% { opacity: 0.8; }
+            100% {
+                transform: translate(115vw, 5vh) scale(0.3) rotate(5deg);
+                opacity: 0;
+            }
         }
-        /* Самурайский силуэт через CSS */
-        .samurai-silhouette {
-            width: 120px;
-            height: 180px;
-            margin: 0 auto 1.5rem;
-            position: relative;
-            background: #000;
-            clip-path: polygon(40% 0%, 60% 0%, 65% 30%, 80% 35%, 100% 50%, 90% 60%, 75% 55%, 70% 100%, 30% 100%, 25% 55%, 10% 60%, 0% 50%, 20% 35%, 35% 30%);
-            box-shadow: 0 0 15px #d4af37;
-        }
-        header h1 {
-            margin: 0;
+
+        .dragon {
+            position: fixed;
+            top: 0;
+            left: 0;
             font-size: 4rem;
-            color: #d4af37;
-            text-shadow: 3px 3px 15px #000;
-            letter-spacing: 3px;
+            pointer-events: none;
+            z-index: 100;
+            animation: dragonFly 25s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            filter: drop-shadow(0 0 10px var(--primary-gold));
         }
-        .audio-controller {
-            margin-top: 2rem;
-            display: inline-flex;
-            align-items: center;
-            background: rgba(0,0,0,0.6);
-            padding: 0.5rem 1.5rem;
-            border: 1px solid #d4af37;
-            border-radius: 30px;
-        }
-        .audio-controller span {
-            margin-right: 1rem;
-            font-size: 0.9rem;
-            color: #d4af37;
-        }
-        audio {
-            filter: invert(1) hue-rotate(180deg);
-            height: 35px;
-        }
-        .katana-divider {
-            width: 250px;
-            height: 6px;
-            background: linear-gradient(90deg, transparent, #d4af37, transparent);
-            margin: 2rem auto;
+
+        header {
+            background: linear-gradient(180deg, var(--accent-red), #2a0000, var(--bg-dark));
+            padding: 4rem 1rem 3rem;
+            text-align: center;
+            border-bottom: 3px solid var(--primary-gold);
             position: relative;
         }
-        .katana-divider::after {
-            content: '⚔';
-            position: absolute;
-            top: -16px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 2rem;
-            color: #d4af37;
+
+        .main-title {
+            font-size: 3.5rem;
+            color: var(--primary-gold);
+            margin: 0 0 1rem;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            letter-spacing: 4px;
         }
+
+        /* Иконка косы */
+        .scythe-divider {
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin: 1rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .scythe-divider::before, .scythe-divider::after {
+            content: '';
+            height: 2px;
+            width: 100px;
+            background: linear-gradient(90deg, transparent, var(--primary-gold));
+            margin: 0 15px;
+        }
+        .scythe-divider::after {
+            background: linear-gradient(90deg, var(--primary-gold), transparent);
+        }
+
+        .audio-container {
+            margin: 2rem auto;
+            background: rgba(0,0,0,0.6);
+            padding: 1rem;
+            border-radius: 50px;
+            border: 1px solid var(--primary-gold);
+            display: inline-block;
+            max-width: 80%;
+        }
+
+        audio {
+            vertical-align: middle;
+            filter: invert(1) hue-rotate(180deg);
+        }
+
         .container {
-            max-width: 900px;
-            margin: 3rem auto;
+            max-width: 800px;
+            margin: 2rem auto;
             padding: 0 1rem;
         }
+
         .card {
-            background-color: #141414;
-            border: 1px solid #332211;
-            border-left: 4px solid #d4af37;
-            padding: 2.5rem;
+            background: var(--card-bg);
+            border: 1px solid #3a3321;
+            border-left: 5px solid var(--primary-gold);
+            padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            position: relative;
+            backdrop-filter: blur(5px);
         }
-        h2 { color: #d4af37; margin-top: 0; font-size: 2.2rem; display: flex; align-items: center; }
-        h2::before { content: ' Bann'; margin-right: 0.5rem; font-size: 1.5rem; }
-        p { line-height: 1.8; color: #cccccc; font-size: 1.2rem; }
-        .tags { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
-        .tag {
-            background: #2a2015;
-            color: #d4af37;
-            border: 1px solid #d4af37;
-            padding: 0.5rem 1.2rem;
+
+        h2 {
+            color: var(--primary-gold);
+            margin-top: 0;
+            font-size: 2rem;
+            border-bottom: 1px solid #332211;
+            padding-bottom: 0.5rem;
+        }
+
+        p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #ccc;
+        }
+
+        .arsenal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .tool-badge {
+            background: #1e1b18;
+            border: 1px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 0.8rem;
+            text-align: center;
             font-weight: bold;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .tool-badge:hover {
+            background: var(--primary-gold);
+            color: var(--bg-dark);
+            transform: translateY(-3px);
+        }
+
+        .contact-section {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 3rem;
+            background: linear-gradient(0deg, var(--card-bg), var(--bg-dark));
+            border-top: 2px solid var(--primary-gold);
+        }
+
+        .telegram-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 1rem 2rem;
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            box-shadow: 0 0 20px rgba(0, 136, 204, 0.5);
+            transition: transform 0.2s;
+        }
+
+        .telegram-link:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
 
-    <div class="petal" style="width: 20px; height: 12px; left: 15%; animation-duration: 14s; animation-delay: 0s;"></div>
-    <div class="petal" style="width: 15px; height: 9px; left: 35%; animation-duration: 11s; animation-delay: 3s;"></div>
-    <div class="petal" style="width: 25px; height: 15px; left: 65%; animation-duration: 16s; animation-delay: 1s;"></div>
-    <div class="petal" style="width: 18px; height: 11px; left: 85%; animation-duration: 12s; animation-delay: 5s;"></div>
+    <!-- Золотой дракон -->
+    <div class="dragon">🐉</div>
+
+    <!-- Генератор лепестков -->
+    <script>
+        const petalCount = 35;
+        for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            const size = Math.random() * 15 + 10;
+            petal.style.width = size + 'px';
+            petal.style.height = size * 0.6 + 'px';
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = Math.random() * 10 + 10 + 's';
+            petal.style.animationDelay = Math.random() * 5 + 's';
+            petal.style.animationName = 'fall';
+            document.body.appendChild(petal);
+        }
+    </script>
 
     <header>
-        <div class="samurai-silhouette"></div>
-        <h1>侍 • Путь Кода</h1>
-        <div class="katana-divider"></div>
-        <p>Дисциплина, Честь, Чистый Скрипт</p>
+        <h1 class="main-title">侍 • Путь Кода</h1>
+        <div class="scythe-divider">⚔</div>
+        <p>Дисциплина, Мастерство, Создание Миров</p>
         
-        <div class="audio-controller">
-            <span>Медитативный фон:</span>
+        <div class="audio-container">
             <audio controls loop>
                 <source src="https://actions.google.com/sounds/v1/ambiences/japan_shrine_bells.ogg" type="audio/ogg">
-                Ваш браузер не поддерживает аудио элемент.
+                Ваш браузер не поддерживает аудио.
             </audio>
         </div>
     </header>
@@ -137,18 +250,28 @@
     <div class="container">
         <div class="card">
             <h2>Кодекс Разработчика</h2>
-            <p>Подобно самураю, оттачивающему владение мечом, я шлифую свои навыки до совершенства. Мой код — это отражение философии простоты, надежности и внутренней гармонии.</p>
+            <p>Подобно великому самураю, я оттачиваю свое мастерство в создании цифровых миров. Мой путь — это написание чистого, эффективного кода и архитектура современных сайтов. Каждый символ — это удар меча, каждая строка — часть нерушимой крепости.</p>
         </div>
+
         <div class="card">
-            <h2>Арсенал</h2>
-            <div class="tags">
-                <span class="tag">JavaScript</span>
-                <span class="tag">HTML/CSS</span>
-                <span class="tag">Git</span>
-                <span class="tag">Мастерство</span>
+            <h2>Мой Самурайский Арсенал</h2>
+            <div class="arsenal-grid">
+                <div class="tool-badge">GPT</div>
+                <div class="tool-badge">DeepSeek</div>
+                <div class="tool-badge">Open Code</div>
+                <div class="tool-badge">Git</div>
+                <div class="tool-badge">HTML/CSS</div>
+                <div class="tool-badge">JavaScript</div>
             </div>
         </div>
+    </div>
+
+    <div class="contact-section">
+        <h2>Послание Великому Самураю</h2>
+        <p>Нужен надежный клинок в мире веб-разработки или есть достойный вызов?</p>
+        <a href="https://t.me/cashoverseer" class="telegram-link" target="_blank">Написать в Telegram</a>
     </div>
 </body>
 </html>
 
+                    
