@@ -7,10 +7,22 @@
     <style>
         :root {
             --primary-gold: #d4af37;
+            --primary-glow: rgba(212, 175, 55, 0.45);
             --bg-dark: #0a0a0c;
             --card-bg: #141418;
             --text-main: #e0e0e0;
             --accent-red: #8b0000;
+            --header-mid: #2a0000;
+        }
+
+        /* Боевой режим: Кровавая Луна */
+        body.blood-mode {
+            --primary-gold: #ff2a4b;
+            --primary-glow: rgba(255, 42, 75, 0.5);
+            --bg-dark: #090507;
+            --card-bg: #160c10;
+            --accent-red: #5c0011;
+            --header-mid: #1f0006;
         }
 
         body {
@@ -24,6 +36,62 @@
                 radial-gradient(circle at 20% 20%, #1f1a18 1px, transparent 1px),
                 radial-gradient(circle at 80% 80%, #181a1f 1px, transparent 1px);
             background-size: 50px 50px;
+            transition: background-color 0.4s ease;
+        }
+
+        /* Кнопка смены боевого режима */
+        .mode-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            background: rgba(15, 15, 18, 0.85);
+            color: var(--primary-gold);
+            border: 1px solid var(--primary-gold);
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--primary-glow);
+            backdrop-filter: blur(6px);
+            transition: all 0.3s ease;
+        }
+
+        .mode-toggle:hover {
+            transform: scale(1.05);
+            background: var(--primary-gold);
+            color: #0a0a0c;
+        }
+
+        /* След от удара катаны при клике */
+        .katana-slash {
+            position: fixed;
+            width: 140px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffffff, var(--primary-gold), transparent);
+            box-shadow: 0 0 12px var(--primary-gold), 0 0 25px #ffffff;
+            pointer-events: none;
+            z-index: 9999;
+            border-radius: 50%;
+            transform-origin: center;
+            animation: slashAnim 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slashAnim {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) rotate(var(--angle)) scaleX(0.1);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) rotate(var(--angle)) scaleX(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) rotate(var(--angle)) scaleX(1.6);
+            }
         }
 
         /* Улучшенная анимация сакуры */
@@ -66,6 +134,16 @@
             }
         }
 
+        /* Лёгкое живое движение для больших карточек */
+        @keyframes cardFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
         .dragon {
             position: fixed;
             top: 0;
@@ -78,22 +156,23 @@
         }
 
         header {
-            background: linear-gradient(180deg, var(--accent-red), #2a0000, var(--bg-dark));
-            padding: 4rem 1rem 3rem;
+            background: linear-gradient(180deg, var(--accent-red), var(--header-mid), var(--bg-dark));
+            padding: 4.5rem 1rem 3rem;
             text-align: center;
             border-bottom: 3px solid var(--primary-gold);
             position: relative;
+            transition: all 0.4s ease;
         }
 
         .main-title {
-            font-size: 3.5rem;
+            font-size: 3.2rem;
             color: var(--primary-gold);
             margin: 0 0 1rem;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            text-shadow: 0 0 20px var(--primary-glow);
             letter-spacing: 4px;
+            transition: color 0.4s ease;
         }
 
-        /* Иконка косы */
         .scythe-divider {
             font-size: 2.5rem;
             color: var(--primary-gold);
@@ -114,18 +193,19 @@
         }
 
         .audio-container {
-            margin: 2rem auto;
+            margin: 1.5rem auto 0;
             background: rgba(0,0,0,0.6);
-            padding: 1rem;
+            padding: 0.8rem 1rem;
             border-radius: 50px;
             border: 1px solid var(--primary-gold);
             display: inline-block;
-            max-width: 80%;
+            max-width: 85%;
         }
 
         audio {
             vertical-align: middle;
             filter: invert(1) hue-rotate(180deg);
+            max-width: 100%;
         }
 
         .container {
@@ -144,20 +224,136 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             position: relative;
             backdrop-filter: blur(5px);
+            animation: cardFloat 6s ease-in-out infinite;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background-color 0.4s ease;
+        }
+
+        .card:nth-child(2) { animation-delay: 1.5s; }
+        .card:nth-child(3) { animation-delay: 3s; }
+        .card:nth-child(4) { animation-delay: 4.5s; }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: var(--primary-gold);
+            box-shadow: 0 16px 36px var(--primary-glow);
         }
 
         h2 {
             color: var(--primary-gold);
             margin-top: 0;
-            font-size: 2rem;
-            border-bottom: 1px solid #332211;
+            font-size: 1.9rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
             padding-bottom: 0.5rem;
+            transition: color 0.4s ease;
         }
 
         p {
             line-height: 1.8;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: #ccc;
+        }
+
+        /* Счётчик опыта */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1.2rem;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid var(--primary-gold);
+            border-radius: 6px;
+            padding: 1.2rem 0.8rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-gold);
+            text-shadow: 0 0 12px var(--primary-glow);
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #bbb;
+            letter-spacing: 0.5px;
+        }
+
+        /* Витрина работ */
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+
+        .work-item {
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 6px;
+            padding: 1.3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .work-item:hover {
+            border-color: var(--primary-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--primary-glow);
+        }
+
+        .work-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border: 1px solid var(--primary-gold);
+            color: var(--primary-gold);
+            border-radius: 20px;
+            margin-bottom: 0.8rem;
+            width: fit-content;
+        }
+
+        .work-title {
+            font-size: 1.25rem;
+            color: #fff;
+            margin: 0 0 0.6rem;
+        }
+
+        .work-desc {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #b5b5b5;
+            margin: 0 0 1.2rem;
+        }
+
+        .work-btn {
+            display: inline-block;
+            text-align: center;
+            padding: 0.65rem 1rem;
+            border: 1px solid var(--primary-gold);
+            color: var(--primary-gold);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            transition: all 0.25s ease;
+        }
+
+        .work-btn:hover {
+            background: var(--primary-gold);
+            color: #0a0a0c;
         }
 
         /* Интерактивный арсенал */
@@ -176,11 +372,16 @@
             transition: all 0.3s ease;
         }
 
+        .tool-card:hover {
+            transform: translateX(4px);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
         .tool-card summary {
             padding: 1.2rem;
             color: var(--primary-gold);
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             letter-spacing: 1.5px;
             cursor: pointer;
             list-style: none;
@@ -209,13 +410,13 @@
             border-top: 1px dashed rgba(212, 175, 55, 0.3);
             color: #bbb;
             line-height: 1.6;
-            font-size: 1rem;
+            font-size: 0.98rem;
         }
 
         .contact-section {
             text-align: center;
             margin-top: 4rem;
-            padding: 3rem;
+            padding: 3rem 1rem;
             background: linear-gradient(0deg, var(--card-bg), var(--bg-dark));
             border-top: 2px solid var(--primary-gold);
         }
@@ -223,13 +424,13 @@
         .telegram-link {
             display: inline-block;
             margin-top: 1.5rem;
-            padding: 1rem 2rem;
+            padding: 1rem 2.2rem;
             background: #0088cc;
             color: white;
             text-decoration: none;
             font-weight: bold;
             border-radius: 50px;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             box-shadow: 0 0 20px rgba(0, 136, 204, 0.5);
             transition: transform 0.2s;
         }
@@ -241,25 +442,11 @@
 </head>
 <body>
 
+    <!-- Кнопка боевого режима -->
+    <button class="mode-toggle" id="modeBtn" onclick="toggleCombatMode()">🩸 Кровавая Луна</button>
+
     <!-- Золотой дракон -->
     <div class="dragon">🐉</div>
-
-    <!-- Генератор лепестков -->
-    <script>
-        const petalCount = 35;
-        for (let i = 0; i < petalCount; i++) {
-            const petal = document.createElement('div');
-            petal.className = 'petal';
-            const size = Math.random() * 15 + 10;
-            petal.style.width = size + 'px';
-            petal.style.height = size * 0.6 + 'px';
-            petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.animationDuration = Math.random() * 10 + 10 + 's';
-            petal.style.animationDelay = Math.random() * 5 + 's';
-            petal.style.animationName = 'fall';
-            document.body.appendChild(petal);
-        }
-    </script>
 
     <header>
         <h1 class="main-title">侍 • Путь Кода</h1>
@@ -275,11 +462,65 @@
     </header>
 
     <div class="container">
+        <!-- Кодекс -->
         <div class="card">
             <h2>Кодекс Разработчика</h2>
             <p>Подобно великому самураю, я оттачиваю свое мастерство в создании цифровых миров. Мой путь — это написание чистого, эффективного кода и архитектура современных сайтов. Каждый символ — это удар меча, каждая строка — часть нерушимой крепости.</p>
         </div>
 
+        <!-- Счётчик опыта -->
+        <div class="card">
+            <h2>Летопись Побед</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-number" data-target="12">0</span>
+                    <span class="stat-label">Заказчиков</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" data-target="18">0</span>
+                    <span class="stat-label">Создано проектов</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" data-target="100">0</span>
+                    <span class="stat-label">% Дисциплины</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Витрина работ -->
+        <div class="card">
+            <h2>Витрина Работ</h2>
+            <div class="showcase-grid">
+                <div class="work-item">
+                    <div>
+                        <span class="work-tag">Веб-сайт • Лендинг</span>
+                        <h3 class="work-title">Кофейня «Koffehouse»</h3>
+                        <p class="work-desc">Атмосферный сайт-визитка для кофейни-читальни с меню, стильной подачей и адаптацией под телефоны.</p>
+                    </div>
+                    <a href="https://t.me/cashoverseer" target="_blank" class="work-btn">Заказать похожий</a>
+                </div>
+
+                <div class="work-item">
+                    <div>
+                        <span class="work-tag">Портфолио • Анимация</span>
+                        <h3 class="work-title">Путь Самурая</h3>
+                        <p class="work-desc">Интерактивный профиль разработчика с анимацией сакуры, драконом, звуковым фоном и боевыми режимами.</p>
+                    </div>
+                    <a href="https://t.me/cashoverseer" target="_blank" class="work-btn">Хочу такой же</a>
+                </div>
+
+                <div class="work-item">
+                    <div>
+                        <span class="work-tag">Telegram • Бот</span>
+                        <h3 class="work-title">Игровой / Бизнес Бот</h3>
+                        <p class="work-desc">Автоматизация заказов, мини-игры и удобные меню прямо внутри Telegram под ключ.</p>
+                    </div>
+                    <a href="https://t.me/cashoverseer" target="_blank" class="work-btn">Обсудить бота</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Арсенал -->
         <div class="card">
             <h2>Мой Самурайский Арсенал</h2>
             <div class="arsenal-grid">
@@ -335,7 +576,23 @@
         <p>Нужен надежный клинок в мире веб-разработки или есть достойный вызов?</p>
         <a href="https://t.me/cashoverseer" class="telegram-link" target="_blank">Написать в Telegram</a>
     </div>
-</body>
-</html>
 
-            
+    <script>
+        // Генератор лепестков сакуры
+        const petalCount = 30;
+        for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            const size = Math.random() * 14 + 9;
+            petal.style.width = size + 'px';
+            petal.style.height = size * 0.6 + 'px';
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = Math.random() * 10 + 10 + 's';
+            petal.style.animationDelay = Math.random() * 5 + 's';
+            petal.style.animationName = 'fall';
+            document.body.appendChild(petal);
+        }
+
+        // Интерактивный удар меча при клике/тапе
+        document.addEventListener('pointerdown', (e) => {
+            const slas
